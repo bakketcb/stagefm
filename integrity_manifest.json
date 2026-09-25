@@ -4,7 +4,7 @@
     "integrity_manifest.json"
   ],
   "file_count": 132,
-  "aggregate_sha256": "ccfb56001c1277b7be9151f2989d687f2c280067d2eebb12cd05f8726e9fdab4",
+  "aggregate_sha256": "784f60e7f9cab25a755ea7ae78b1341f882f01ce4cf9bdb29c300a4a3fffe3ec",
   "algorithm": "sha256 over sorted (relative path, sha256) pairs",
   "files": {
     ".gitignore": "8a2800e01c008f596b4bb0e5e5e9ef12e6f462ef1f2980286c8ae2aa8c4c7efd",
@@ -64,7 +64,7 @@
     "src/stagefm/cli/eval.py": "d758b82b9fbad90581ea055364ba5c2f3429fde35bd7d58548012c365cff65be",
     "src/stagefm/cli/pipeline.py": "6779c5a4b63e55149919745b43063f6388dd0ab26a441b2edaaf97149854c4ae",
     "src/stagefm/cli/train.py": "8b797a9f62ead836834940d5c5a57f7ebd88f1fe9d550b8c1bc1e46ac7aa90c0",
-    "src/stagefm/cli/verify.py": "a8d674aedd2533cf6dd06b6cc616c663b726ecc7952fb3edca1c9eac0a699438",
+    "src/stagefm/cli/verify.py": "046188491f5d480641ee0a3c166df1c7412cfcb550f2fac02fd472332f77712e",
     "src/stagefm/data/__init__.py": "6a82fef1f53862ed61df8713bf97683df0d93a7d086cd90e7fa52dfe54f5082c",
     "src/stagefm/data/cohort.py": "1fe2359b46c9ad22036773ff3247330838e9972db8079340823bb52a8be11de8",
     "src/stagefm/data/dataset.py": "cd54f3f1149eca59e07789e2a7fad5679ea057fefa626c11d25aaf12598efa36",
@@ -137,7 +137,7 @@
     "tests/test_stats.py": "d9a5b1fc2999b4ed18dc77171c1397abd20cc190ed732689fd743a8cb8071834",
     "tests/test_training_smoke.py": "0091eb639166493c3d06deb61cac65f084ff4b8839baa7e3a3d1cd8384fd8738",
     "tests/test_verification.py": "750d05e570f104c83a1a08ab6d0db49eca673897fdfa882568a09ee1e3c7cee0",
-    "verification_report.json": "6e48ffbc6149626be21420e0ca99f1bdc3c935558c055904c50dcc85c6ae6e92",
-    "verification_summary.txt": "1207a305d3d626af87cb753c6fdfeaa084b30bb9a59316942cb319d6395ca487"
+    "verification_report.json": "84e85b89c01b6e3294ec92ad9dc7cd0d6e61ad8bd61c6aaded46e3e1184ea0cb",
+    "verification_summary.txt": "79fbf1ab6747fab2776de2da7b7863ae9dcc5efbcaecd9ad506bb6c46ebb7e75"
   }
 }

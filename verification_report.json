@@ -9,9 +9,9 @@
     "report": "verification_report.json"
   },
   "summary": {
-    "PASS": 58,
+    "PASS": 57,
     "FAIL": 1,
-    "NOT_RUN": 1,
+    "NOT_RUN": 2,
     "BLOCKED": 2,
     "overall_status": "UNVERIFIED",
     "code_status": "PARTIALLY_VERIFIED",
@@ -36,9 +36,9 @@
       }
     ],
     "code_counts": {
-      "PASS": 47,
+      "PASS": 46,
       "FAIL": 0,
-      "NOT_RUN": 1,
+      "NOT_RUN": 2,
       "BLOCKED": 2
     }
   },
@@ -847,83 +847,11 @@
       "id": "env.dataset_links",
       "category": "environment",
       "description": "every recorded dataset link resolves and the returned document names the resource",
-      "status": "PASS",
-      "detail": "",
+      "status": "NOT_RUN",
+      "detail": "live link probing is opt-in (--probe-links) so that the report is byte-reproducible; the file was parsed and every line carries a description and a URL",
       "evidence": {
-        "probed": 10,
-        "matching": 10,
-        "links": [
-          {
-            "url": "https://github.com/StanfordMIMI/Merlin",
-            "description": "Merlin, abdominal CT vision-language foundation model, repository, accessed 2026-09-25",
-            "marker": "Merlin",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://huggingface.co/stanfordmimi/Merlin",
-            "description": "Merlin, model weights and organisation page on Hugging Face (gated; a token and acceptance of the data-use agreement are required), accessed 2026-09-25",
-            "marker": "Merlin",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://www.nature.com/articles/s41586-026-10181-8",
-            "description": "Merlin, the model and dataset paper in Nature, DOI 10.1038/s41586-026-10181-8, accessed 2026-09-25",
-            "marker": "Merlin",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://arxiv.org/abs/2406.06512",
-            "description": "Merlin, preprint record on arXiv 2406.06512, accessed 2026-09-25",
-            "marker": "Merlin",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://github.com/wasserth/TotalSegmentator",
-            "description": "TotalSegmentator, repository for the 104-structure abdominal CT reference segmentation, accessed 2026-09-25",
-            "marker": "TotalSegmentator",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://doi.org/10.5281/zenodo.6802613",
-            "description": "TotalSegmentator, CT dataset record on Zenodo, DOI 10.5281/zenodo.6802613, accessed 2026-09-25",
-            "marker": "TotalSegmentator",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://github.com/JunMa11/FLARE",
-            "description": "FLARE, official repository of the MICCAI FLARE challenges including FLARE 2023, accessed 2026-09-25",
-            "marker": "FLARE",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://zenodo.org/records/7844942",
-            "description": "FLARE, FLARE 2023 abdominal organ and pan-cancer segmentation dataset record on Zenodo, accessed 2026-09-25",
-            "marker": "FLARE",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://arxiv.org/abs/2408.12534",
-            "description": "FLARE, challenge report on arXiv 2408.12534, accessed 2026-09-25",
-            "marker": "FLARE",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          },
-          {
-            "url": "https://codalab.lisn.upsaclay.fr/competitions/12239",
-            "description": "FLARE, FLARE 2023 competition and data-request page on CodaLab, accessed 2026-09-25",
-            "marker": "FLARE",
-            "http_status": 200,
-            "outcome": "reachable and matching"
-          }
-        ]
+        "links": 10,
+        "probed": false
       }
     }
   ],

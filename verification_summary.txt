@@ -4,7 +4,7 @@ release slug    : stagefm
 overall status  : UNVERIFIED
 code status     : PARTIALLY_VERIFIED
 manuscript fails: 1
-checks          : PASS 58  FAIL 1  NOT_RUN 1  BLOCKED 2
+checks          : PASS 57  FAIL 1  NOT_RUN 2  BLOCKED 2
 claim mapping   : 65 claims, 124 anchors
 artefacts       : verification_report.json, claim_to_code.json, integrity_manifest.json
 
@@ -70,4 +70,4 @@ per-check status
   NOT_RUN   env.private_cohort_clinical          the multi-centre cohort is held under a data-usage statement and is not redistributed; the shipped p
   BLOCKED   env.auxiliary_datasets               the released abdominal CT encoder weights and the two segmentation resources are downloaded separate
   BLOCKED   env.container_build                  no container runtime is present on this host
-  PASS      env.dataset_links
+  NOT_RUN   env.dataset_links                    live link probing is opt-in (--probe-links) so that the report is byte-reproducible; the file was pa

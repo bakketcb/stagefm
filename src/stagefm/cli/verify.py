@@ -1905,7 +1905,7 @@ def check_manuscript() -> list[CheckResult]:
     return results
 
 
-def check_environment(root: Path) -> list[CheckResult]:
+def check_environment(root: Path, probe_links: bool = False) -> list[CheckResult]:
     """Host, container, auxiliary-resource and dataset-link checks."""
     import platform
     import shutil
@@ -1951,12 +1951,19 @@ def check_environment(root: Path) -> list[CheckResult]:
     else:
         results.append(ok("env.container_build", "environment", "a container runtime is present", binary=docker))
 
-    results.extend(check_dataset_links(root))
+    results.extend(check_dataset_links(root, probe=probe_links))
     return results
 
 
-def check_dataset_links(root: Path) -> list[CheckResult]:
-    """Probe every URL in ``dataset_urls.txt`` and require the returned document to match."""
+def check_dataset_links(root: Path, probe: bool = False) -> list[CheckResult]:
+    """Parse ``dataset_urls.txt``, and probe the links only when asked to.
+
+    Reaching out to ten hosts makes the result depend on them, and that would make the
+    report's own bytes irreproducible: a clone's verification run would rewrite the
+    report whenever a host happened to be unreachable. The shipped report therefore
+    records the parse and leaves the live probe not run, and ``--probe-links``
+    performs it on demand for a maintainer who wants the reachability evidence.
+    """
     path = root / DATASET_URLS_NAME
     if not path.is_file():
         return [bad("env.dataset_links", "environment", "every recorded dataset link resolves and matches its description", f"{DATASET_URLS_NAME} is missing")]
@@ -1972,6 +1979,18 @@ def check_dataset_links(root: Path) -> list[CheckResult]:
     if not entries:
         return [
             bad("env.dataset_links", "environment", "every recorded dataset link resolves and matches its description", "no tab-separated links were found")
+        ]
+    description = "every recorded dataset link resolves and the returned document names the resource"
+    if not probe:
+        return [
+            skipped(
+                "env.dataset_links",
+                "environment",
+                description,
+                "live link probing is opt-in (--probe-links) so that the report is byte-reproducible; the file was parsed and every line carries a description and a URL",
+                links=len(entries),
+                probed=False,
+            )
         ]
     resolved: list[dict[str, Any]] = []
     mismatched: list[str] = []
@@ -2002,7 +2021,6 @@ def check_dataset_links(root: Path) -> list[CheckResult]:
             missing += 1
         resolved.append(entry)
     evidence = {"probed": len(entries), "matching": len(resolved) - len(mismatched) - len(refused) - missing, "links": resolved}
-    description = "every recorded dataset link resolves and the returned document names the resource"
     if mismatched:
         return [
             bad(
@@ -2151,6 +2169,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", default=None, help="repository root; defaults to the discovered one")
     parser.add_argument("--dump-claims", action="store_true", help="write claim_to_code.json and exit")
     parser.add_argument("--dry-run", action="store_true", help="run every check and print the summary without writing any artefact")
+    parser.add_argument("--probe-links", action="store_true", help="also reach out to every dataset link and record its status")
     args = parser.parse_args(argv)
     root = Path(args.root).resolve() if args.root else find_repo_root(Path(__file__).resolve())
     LOGGER.info("verifying release rooted at %s", root)
@@ -2162,7 +2181,7 @@ def main(argv: list[str] | None = None) -> int:
     checks.extend(_guard(check_execution, root))
     checks.extend(_guard(check_procedures))
     checks.extend(_guard(check_manuscript))
-    checks.extend(_guard(check_environment, root))
+    checks.extend(_guard(check_environment, root, args.probe_links))
     if args.dry_run:
         report = build_report(root, claims, checks, VERIFICATION_NAME)
         print(summary_text(report))
