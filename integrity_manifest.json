@@ -4,13 +4,13 @@
     "integrity_manifest.json"
   ],
   "file_count": 132,
-  "aggregate_sha256": "5dd9996d5cf5594df93f88f118f4d01d810de6a1481425b8f81b67f11fd427bb",
+  "aggregate_sha256": "ccfb56001c1277b7be9151f2989d687f2c280067d2eebb12cd05f8726e9fdab4",
   "algorithm": "sha256 over sorted (relative path, sha256) pairs",
   "files": {
     ".gitignore": "8a2800e01c008f596b4bb0e5e5e9ef12e6f462ef1f2980286c8ae2aa8c4c7efd",
     ".pre-commit-config.yaml": "79aca6c3f59f5046890bc5af3ba598dc75e4c727469e3845b803974f19269a2e",
     "Dockerfile": "0d2597f12e1683d775a18fc3038c3ee9cf42befe043985b055c59e9003875c97",
-    "LICENSE": "480d4dc648599d693d0f88b5127fe4ecac00a14e56b32934b2b68e6d3b7a717e",
+    "LICENSE": "0bf4e53a3f6db1929edd91868278dec7dae8bc0e98c8f88da1e800d0f3d5f5b7",
     "README.md": "171ecb75eefe26475c461444481c326871db39525d006c896a8318dea2325c96",
     "THIRD_PARTY_NOTICES.txt": "8d72ddef1ae8a7de86d98d79dd56ef147048e70f2cd1488a97f07bdbe12b5f4f",
     "claim_to_code.json": "d310886a5a3eedb97b9896ca6ffcd40ffee7a456a491d167e79b6ecf38de10e8",
