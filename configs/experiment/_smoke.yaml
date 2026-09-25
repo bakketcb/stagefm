@@ -1,0 +1,65 @@
+# for unit-test smoke only; do not use for reporting
+# A reduced grid and a reduced model so that a two-step training run and the
+# verification pass complete on a laptop. Every value here is smaller than the
+# reported profile on purpose; nothing in this file may be used for a result.
+extends:
+  data: data/cohort.yaml
+  model: model/default.yaml
+  train: train/default.yaml
+
+data:
+  cohort:
+    train_size: 24
+    internal_test_size: 12
+    external_size: 16
+    prospective_size: 8
+    seed_count: 1
+  imaging:
+    patch_grid: [24, 24, 16]
+
+model:
+  encoder:
+    embed_dim: 48
+    depth: 2
+    num_heads: 4
+    patch_size: 4
+    adaptation:
+      rank: 4
+      alpha: 8
+  fusion:
+    embed_dim: 48
+    num_heads: 4
+    layers: 1
+    image_token_cap: 64
+  risk:
+    min_stratum_size: 2
+    threshold_grid: [0.2, 0.4, 0.6, 0.8]
+
+train:
+  batch_size: 4
+  epochs: 2
+  early_stopping_patience: 2
+  precision: fp32
+  num_workers: 0
+  checkpoint_every: 1
+  eval_every: 1
+  optim:
+    warmup_steps: 1
+  schedule:
+    warmup_steps: 1
+
+experiment:
+  name: _smoke
+  seed: 0
+  streams: [ct, radiomics, clinical, endoscopy, pathology]
+  ablations: {}
+  evaluation:
+    output_dir: runs_smoke
+    achievable_rule: staging
+    bootstrap_resamples: 20
+    fusion_strategy: cross_attention
+    post_hoc_projection: false
+    synthetic:
+      site_dispersion: 0.30
+      feature_noise: 0.55
+      endoscopy_hint_weight: 0.35

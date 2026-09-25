@@ -1,0 +1,22 @@
+# Reader study aggregation: 18 readers, 360 examinations, paired within reader and case with a washout interval.
+# Anchor: Methods Sec. 4.9; Sec. 2.6
+extends:
+  data: data/cohort.yaml
+  model: model/default.yaml
+  train: train/default.yaml
+
+experiment:
+  name: supplementary_reader_study
+  seed: 0
+  streams: [ct, radiomics, clinical, endoscopy, pathology]
+  ablations: {}
+  evaluation:
+    output_dir: runs
+    achievable_rule: staging
+    bootstrap_resamples: 2000
+    fusion_strategy: cross_attention
+    post_hoc_projection: false
+    synthetic:
+      site_dispersion: 0.30
+      feature_noise: 0.55
+      endoscopy_hint_weight: 0.35

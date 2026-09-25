@@ -1,0 +1,931 @@
+{
+  "release": {
+    "title": "A Multimodal Radiomics Foundation Model for Gastric Cancer Staging in Real-World Multi-Center Imaging Cohorts",
+    "venue": "npj Digital Medicine",
+    "release_slug": "stagefm",
+    "importable_package": "stagefm",
+    "config": "configs/experiment/main.yaml",
+    "seed": 0,
+    "report": "verification_report.json"
+  },
+  "summary": {
+    "PASS": 58,
+    "FAIL": 1,
+    "NOT_RUN": 1,
+    "BLOCKED": 2,
+    "overall_status": "UNVERIFIED",
+    "code_status": "PARTIALLY_VERIFIED",
+    "checks": 62,
+    "manuscript_checks": 12,
+    "manuscript_discrepancies": [
+      {
+        "id": "ms.interaction_concordance_reported",
+        "category": "manuscript",
+        "description": "the reported concordance interaction ratio follows from the tabulated rows",
+        "status": "FAIL",
+        "detail": "the same estimator applied to the four Table 4 concordance rows gives 0.57, while the text reports 0.87; the discrepancy is left standing rather than reconciled",
+        "evidence": {
+          "derived": 0.5695067264574014,
+          "reported": 0.87,
+          "separate": [
+            0.023299999999999987,
+            0.021299999999999986
+          ],
+          "joint": 0.02540000000000009
+        }
+      }
+    ],
+    "code_counts": {
+      "PASS": 47,
+      "FAIL": 0,
+      "NOT_RUN": 1,
+      "BLOCKED": 2
+    }
+  },
+  "claim_mapping": {
+    "artifact": "paper-claim to code mapping",
+    "claims": 65,
+    "anchors": 124,
+    "resolved_anchors": 124
+  },
+  "checks": [
+    {
+      "id": "pass1.claim_mapping",
+      "category": "provenance",
+      "description": "every paper claim resolves to a real file and a real module-level symbol",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "claims": 65,
+        "anchors": 124,
+        "unresolved": [],
+        "claims_without_paper_location": [],
+        "package_dir": "src/stagefm"
+      }
+    },
+    {
+      "id": "pass2.data_read",
+      "category": "execution",
+      "description": "an examination item carries a volume, the non-imaging streams, a presence vector and the supervision",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "records": 24,
+        "volume_shape": [
+          1,
+          24,
+          24,
+          16
+        ],
+        "radiomics_dim": 64,
+        "clinical_dim": 12,
+        "presence": [
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "labels": {
+          "t": 2,
+          "n": 3,
+          "m": 1
+        }
+      }
+    },
+    {
+      "id": "pass2.forward",
+      "category": "execution",
+      "description": "the forward pass returns per-axis, joint and projected distributions",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "t_shape": [
+          3,
+          4
+        ],
+        "joint_shape": [
+          3,
+          32
+        ],
+        "projected_sums": [
+          1.0,
+          0.9999999403953552,
+          0.9999999403953552
+        ],
+        "joint_sums": [
+          1.0,
+          1.0,
+          1.0000001192092896
+        ]
+      }
+    },
+    {
+      "id": "pass2.objective",
+      "category": "execution",
+      "description": "the objective combines the ordinal, decision and calibration terms",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "total": 3.614504098892212,
+        "ordinal": 3.1506738662719727,
+        "decision": 0.8756293654441833,
+        "calibration": 0.2601562440395355,
+        "lambda_decision": 0.5,
+        "gamma_calibration": 0.1
+      }
+    },
+    {
+      "id": "pass2.backward_update",
+      "category": "execution",
+      "description": "a backward pass updates trainable parameters",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "trainable_tensors": 65,
+        "updated_tensors": 55,
+        "frozen_tensors": 37
+      }
+    },
+    {
+      "id": "pass2.checkpoint_roundtrip",
+      "category": "execution",
+      "description": "a checkpoint round trip preserves the tensor payload and the frozen thresholds",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "payload_digest": "21b5fb062017d0c23d44f3b5d084cca6197a1ff214f4437692b01097ae489199",
+        "thresholds": {
+          "A": 0.34,
+          "B": 0.3
+        },
+        "bytes": 811309
+      }
+    },
+    {
+      "id": "pass2.single_batch_overfit",
+      "category": "execution",
+      "description": "the objective falls on a single repeated batch",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "first": 3.8075039386749268,
+        "last": 2.8884084224700928,
+        "steps": 24,
+        "ratio": 0.7586094378343062
+      }
+    },
+    {
+      "id": "pass2.minimal_training_loop",
+      "category": "execution",
+      "description": "two optimiser steps run through the training loop",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "steps": 2.0,
+        "loss": 3.7887492179870605,
+        "grad_norm": 7.037203073501587,
+        "lr": 7.524999852478504e-05
+      }
+    },
+    {
+      "id": "indep.projection_closed_form",
+      "category": "algorithm",
+      "description": "the projection equals an explicit mask-and-renormalise computation, has unit sum and no mass outside the achievable set",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "achievable_size": 22,
+        "outside_mass": 0.0,
+        "max_abs_deviation": 0.0
+      }
+    },
+    {
+      "id": "indep.projection_degenerate",
+      "category": "algorithm",
+      "description": "the degenerate case returns the uniform distribution on the achievable set",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "support": 22
+      }
+    },
+    {
+      "id": "indep.achievable_set",
+      "category": "algorithm",
+      "description": "the achievable set matches an independently written rule over the 32 combinations",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "size": 22,
+        "excluded": 10
+      }
+    },
+    {
+      "id": "indep.achievable_membership",
+      "category": "algorithm",
+      "description": "named combinations are classified as expected",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "examples": 7
+      }
+    },
+    {
+      "id": "indep.boundary_rule",
+      "category": "algorithm",
+      "description": "the boundary rule maps the named stages onto the expected categories",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "examples": 6
+      }
+    },
+    {
+      "id": "indep.boundary_shift",
+      "category": "algorithm",
+      "description": "the sensitivity shift moves and clamps the category order",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "shifts": {
+          "-1": "surgery_first",
+          "0": "perioperative",
+          "1": "systemic"
+        }
+      }
+    },
+    {
+      "id": "indep.auc_bruteforce",
+      "category": "metric",
+      "description": "the binary area under the curve equals explicit pairwise counting and the reference library",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.9047619047619048,
+        "brute_force": 0.9047619047619048,
+        "library": 0.9047619047619048
+      }
+    },
+    {
+      "id": "indep.macro_auroc",
+      "category": "metric",
+      "description": "the four-class macro average equals the mean of the one-vs-rest areas",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.9112269058545541,
+        "independent": 0.9112269058545541
+      }
+    },
+    {
+      "id": "indep.ordinal_auroc",
+      "category": "metric",
+      "description": "the ordinal summary equals the sample-size weighted mean of the pairwise areas",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.8388822474596533,
+        "independent": 0.8388822474596533
+      }
+    },
+    {
+      "id": "indep.delong_variance",
+      "category": "statistic",
+      "description": "the DeLong standard error agrees with a bootstrap standard error",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "delong": 0.08606629658238703,
+        "bootstrap": 0.09117738957683669
+      }
+    },
+    {
+      "id": "indep.icc_anova",
+      "category": "statistic",
+      "description": "the variance decomposition matches the hand-computed mean squares",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "mean_square_between": 0.15800193107136518,
+        "mean_square_within": 0.0029239741293042806,
+        "between_variance": 0.0038769489235515224,
+        "icc": 0.5700621655943507,
+        "hand_check": 0.003101559138841218
+      }
+    },
+    {
+      "id": "indep.net_benefit",
+      "category": "metric",
+      "description": "net benefit matches the closed form",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.4326923076923077,
+        "threshold": 0.35
+      }
+    },
+    {
+      "id": "indep.decision_curve_references",
+      "category": "metric",
+      "description": "the treat-none and treat-all references equal their closed forms",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "treat_all": [
+          0.375,
+          0.16666666666666663
+        ],
+        "prevalence": 0.5
+      }
+    },
+    {
+      "id": "indep.ece_hand",
+      "category": "metric",
+      "description": "expected calibration error matches a hand-computed two-bin example",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.455,
+        "hand": 0.455
+      }
+    },
+    {
+      "id": "indep.mcnemar_exact",
+      "category": "statistic",
+      "description": "the paired test reproduces the exact two-sided binomial probability",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "p_value": 1.0,
+        "discordant": 3
+      }
+    },
+    {
+      "id": "indep.nri_components",
+      "category": "metric",
+      "description": "the reclassification components match a hand-computed example",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "events": 0.5,
+        "non_events": 0.0
+      }
+    },
+    {
+      "id": "indep.ordinal_head_structure",
+      "category": "model",
+      "description": "the ordinal head yields a non-increasing cumulative curve and normalised non-negative probabilities",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "max_gap": 0.6941471695899963
+      }
+    },
+    {
+      "id": "indep.cut_point_monotonicity",
+      "category": "model",
+      "description": "cut points stay strictly increasing under a large perturbation of the raw gaps",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "minimum_gap": 0.04055309295654297
+      }
+    },
+    {
+      "id": "indep.ordinal_loss_hand",
+      "category": "loss",
+      "description": "the ordinal loss equals a hand-computed cumulative-link negative log-likelihood",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.8566349447738489
+      }
+    },
+    {
+      "id": "indep.decision_loss_surrogate",
+      "category": "loss",
+      "description": "the decision term reads the systemic mass off the projected distribution",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "systemic_column": 1,
+        "systemic_mass": [
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "indep.calibration_affine",
+      "category": "model",
+      "description": "the calibration layer is an affine map on the logit scale",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "slope": 4.626426430308102,
+        "intercept": -0.6510821358591088
+      }
+    },
+    {
+      "id": "indep.threshold_selection",
+      "category": "model",
+      "description": "the frozen threshold minimises the empirical boundary error over the grid and carries a union-bound term",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "threshold": 0.2,
+        "empirical": 0.5,
+        "bound": 0.6485810296121843,
+        "grid_errors": [
+          0.5,
+          0.5,
+          0.5,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "indep.lora_zero_init",
+      "category": "model",
+      "description": "the adapted encoder is numerically identical to the frozen encoder at initialisation and no base weight moved",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "replaced_projections": 8,
+        "targets": [
+          "q_proj",
+          "k_proj",
+          "v_proj",
+          "out_proj"
+        ],
+        "adapter_parameters": 3072
+      }
+    },
+    {
+      "id": "indep.lora_freezes_base",
+      "category": "model",
+      "description": "freezing the backbone leaves only the adapters trainable",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "frozen": 37,
+        "trainable_adapters": 3072
+      }
+    },
+    {
+      "id": "indep.modality_dropout_rate",
+      "category": "data",
+      "description": "the modality dropout blanks each non-imaging stream at the configured rate",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "observed": {
+          "radiomics": 0.14675,
+          "clinical": 0.135,
+          "endoscopy": 0.1525,
+          "pathology": 0.161
+        },
+        "requested": 0.15,
+        "trials": 4000
+      }
+    },
+    {
+      "id": "indep.dropout_never_invents",
+      "category": "data",
+      "description": "modality dropout only removes availability and never creates it",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {}
+    },
+    {
+      "id": "indep.shell_geometry",
+      "category": "data",
+      "description": "the peritumoral shell contains exactly the voxels within the outer radius and excludes the seed region",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "voxels": 32,
+        "max_distance": 2.0
+      }
+    },
+    {
+      "id": "indep.descriptor_determinism",
+      "category": "data",
+      "description": "descriptor extraction is deterministic and finite across all seven families",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "descriptors": 63,
+        "families": 7
+      }
+    },
+    {
+      "id": "indep.redundancy_collapse",
+      "category": "data",
+      "description": "perfectly correlated descriptors collapse to a single representative",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "kept": [
+          "a",
+          "c"
+        ]
+      }
+    },
+    {
+      "id": "indep.per_site_standardisation",
+      "category": "data",
+      "description": "per-site standardisation centres and scales each site with its own statistics",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "max_mean": 1.4932499681208355e-15,
+        "max_std_error": 2.220446049250313e-16
+      }
+    },
+    {
+      "id": "indep.standardiser_unseen_site",
+      "category": "data",
+      "description": "an unseen site falls back to the pooled development statistics rather than to the evaluation site",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "fallback": 322.95981946745565
+      }
+    },
+    {
+      "id": "indep.schedule_shape",
+      "category": "training",
+      "description": "the schedule warms up linearly to one and decays monotonically afterwards",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "factors": [
+          0.002,
+          0.502,
+          1.0,
+          0.9054634162783622,
+          0.35203656896948815,
+          0.01
+        ],
+        "warmup_steps": 500,
+        "minimum": 0.01
+      }
+    },
+    {
+      "id": "indep.bh_adjustment",
+      "category": "statistic",
+      "description": "the false-discovery-rate adjustment reproduces the reference implementation",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "adjusted": [
+          0.007,
+          0.028,
+          0.04666666666666667,
+          0.07,
+          0.28,
+          0.7000000000000001,
+          0.9
+        ],
+        "rejected": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "id": "indep.interaction_ratio",
+      "category": "statistic",
+      "description": "the interaction ratio equals joint divided by the sum of the separate effects",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 1.3004484304932735,
+        "joint": 5.8,
+        "separate": [
+          1.41,
+          3.05
+        ]
+      }
+    },
+    {
+      "id": "indep.kappa_library",
+      "category": "metric",
+      "description": "the weighted kappa reproduces the reference library under the documented linear weighting",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "value": 0.0
+      }
+    },
+    {
+      "id": "indep.concordance_hand",
+      "category": "metric",
+      "description": "the exact-combination rate matches a hand-counted example",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "concordance": 0.75,
+        "discordance": 0.25
+      }
+    },
+    {
+      "id": "indep.joint_distribution",
+      "category": "model",
+      "description": "the joint distribution is the outer product of the axis distributions and has unit mass",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "entries": 32
+      }
+    },
+    {
+      "id": "ms.interaction_discordance",
+      "category": "manuscript",
+      "description": "the manuscript's separate and joint contributions recompute from its own Table 4 rows",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "separate": [
+          1.4100000000000001,
+          3.05
+        ],
+        "joint": 5.8,
+        "ratio": 1.3004484304932735
+      }
+    },
+    {
+      "id": "ms.interaction_ratio_reported",
+      "category": "manuscript",
+      "description": "the reported discordance interaction ratio of 1.30 follows from the tabulated rows",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "ratio": 1.3004484304932735
+      }
+    },
+    {
+      "id": "ms.interaction_concordance_reported",
+      "category": "manuscript",
+      "description": "the reported concordance interaction ratio follows from the tabulated rows",
+      "status": "FAIL",
+      "detail": "the same estimator applied to the four Table 4 concordance rows gives 0.57, while the text reports 0.87; the discrepancy is left standing rather than reconciled",
+      "evidence": {
+        "derived": 0.5695067264574014,
+        "reported": 0.87,
+        "separate": [
+          0.023299999999999987,
+          0.021299999999999986
+        ],
+        "joint": 0.02540000000000009
+      }
+    },
+    {
+      "id": "ms.variance_reduction",
+      "category": "manuscript",
+      "description": "the quoted between-site variance reduction recomputes from its own pair of values",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "reduction_percent": 70.95435684647302,
+        "before": 0.00241,
+        "after": 0.0007
+      }
+    },
+    {
+      "id": "ms.retention_share",
+      "category": "manuscript",
+      "description": "the retained share of the external cohort recomputes from the two counts",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "retained": 2842,
+        "total": 3456,
+        "share": 0.8223379629629629
+      }
+    },
+    {
+      "id": "ms.cohort_arithmetic",
+      "category": "manuscript",
+      "description": "the cohort partitions close, including the prospective per-site counts and the reader observations",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "combinations": 6480,
+        "prospective": 1850,
+        "analysis_set": 11284
+      }
+    },
+    {
+      "id": "ms.missingness_shares",
+      "category": "manuscript",
+      "description": "the reported missingness shares recompute from the counts and the analysis-set size",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "endoscopy_percent": 0.1683800070896845,
+        "pathology_percent": 0.5405884438142503
+      }
+    },
+    {
+      "id": "ms.discordance_reductions",
+      "category": "manuscript",
+      "description": "the quoted discordance reductions recompute from the tabulated rates",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "versus_unconstrained": 4.32,
+        "versus_posthoc": 4.07
+      }
+    },
+    {
+      "id": "ms.clinical_relevance",
+      "category": "manuscript",
+      "description": "both quoted reductions exceed the pre-specified 3.0 point clinical-relevance threshold",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "threshold": 3.0,
+        "reductions": {
+          "versus_unconstrained": 4.32,
+          "versus_posthoc": 4.07
+        }
+      }
+    },
+    {
+      "id": "ms.t_axis_parity",
+      "category": "manuscript",
+      "description": "the quoted tumour-axis difference between the constrained model and the unconstrained arm recomputes",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "difference": 0.0006
+      }
+    },
+    {
+      "id": "ms.endpoint_interval",
+      "category": "manuscript",
+      "description": "the primary endpoint's quoted interval has the stated half-width",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "half_width": 0.51
+      }
+    },
+    {
+      "id": "ms.decision_curve_values",
+      "category": "manuscript",
+      "description": "the quoted decision-curve values are internally ordered with the constrained model highest",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "gap": 0.034
+      }
+    },
+    {
+      "id": "env.host_runtime",
+      "category": "environment",
+      "description": "the verification host's runtime is recorded",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "python": "3.14.0",
+        "executable_major_minor": "3.14",
+        "torch": "2.11.0",
+        "numpy": "2.4.3",
+        "cuda_available": false,
+        "device_count": 0
+      }
+    },
+    {
+      "id": "env.private_cohort_clinical",
+      "category": "environment",
+      "description": "the clinical cohort is private, so every cohort-level clinical value stays NOT_RUN",
+      "status": "NOT_RUN",
+      "detail": "the multi-centre cohort is held under a data-usage statement and is not redistributed; the shipped pipeline runs a schema-compatible generator and no generated value is reported as a study result",
+      "evidence": {
+        "tables": [
+          "Table 1",
+          "Table 3",
+          "Table 4",
+          "Fig. 1",
+          "Fig. 2",
+          "Fig. 3",
+          "Fig. 4"
+        ]
+      }
+    },
+    {
+      "id": "env.auxiliary_datasets",
+      "category": "environment",
+      "description": "model pretraining and auxiliary organ localisation need external downloads",
+      "status": "BLOCKED",
+      "detail": "the released abdominal CT encoder weights and the two segmentation resources are downloaded separately and are absent from this checkout; no clinical claim depends on them",
+      "evidence": {
+        "resources": [
+          "released abdominal CT vision-language encoder",
+          "TotalSegmentator",
+          "FLARE 2023"
+        ]
+      }
+    },
+    {
+      "id": "env.container_build",
+      "category": "environment",
+      "description": "the image builds",
+      "status": "BLOCKED",
+      "detail": "no container runtime is present on this host",
+      "evidence": {}
+    },
+    {
+      "id": "env.dataset_links",
+      "category": "environment",
+      "description": "every recorded dataset link resolves and the returned document names the resource",
+      "status": "PASS",
+      "detail": "",
+      "evidence": {
+        "probed": 10,
+        "matching": 10,
+        "links": [
+          {
+            "url": "https://github.com/StanfordMIMI/Merlin",
+            "description": "Merlin, abdominal CT vision-language foundation model, repository, accessed 2026-09-25",
+            "marker": "Merlin",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://huggingface.co/stanfordmimi/Merlin",
+            "description": "Merlin, model weights and organisation page on Hugging Face (gated; a token and acceptance of the data-use agreement are required), accessed 2026-09-25",
+            "marker": "Merlin",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://www.nature.com/articles/s41586-026-10181-8",
+            "description": "Merlin, the model and dataset paper in Nature, DOI 10.1038/s41586-026-10181-8, accessed 2026-09-25",
+            "marker": "Merlin",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://arxiv.org/abs/2406.06512",
+            "description": "Merlin, preprint record on arXiv 2406.06512, accessed 2026-09-25",
+            "marker": "Merlin",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://github.com/wasserth/TotalSegmentator",
+            "description": "TotalSegmentator, repository for the 104-structure abdominal CT reference segmentation, accessed 2026-09-25",
+            "marker": "TotalSegmentator",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://doi.org/10.5281/zenodo.6802613",
+            "description": "TotalSegmentator, CT dataset record on Zenodo, DOI 10.5281/zenodo.6802613, accessed 2026-09-25",
+            "marker": "TotalSegmentator",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://github.com/JunMa11/FLARE",
+            "description": "FLARE, official repository of the MICCAI FLARE challenges including FLARE 2023, accessed 2026-09-25",
+            "marker": "FLARE",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://zenodo.org/records/7844942",
+            "description": "FLARE, FLARE 2023 abdominal organ and pan-cancer segmentation dataset record on Zenodo, accessed 2026-09-25",
+            "marker": "FLARE",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://arxiv.org/abs/2408.12534",
+            "description": "FLARE, challenge report on arXiv 2408.12534, accessed 2026-09-25",
+            "marker": "FLARE",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          },
+          {
+            "url": "https://codalab.lisn.upsaclay.fr/competitions/12239",
+            "description": "FLARE, FLARE 2023 competition and data-request page on CodaLab, accessed 2026-09-25",
+            "marker": "FLARE",
+            "http_status": 200,
+            "outcome": "reachable and matching"
+          }
+        ]
+      }
+    }
+  ],
+  "interpretation": "PASS means the check ran on this host and held. FAIL means it ran and did not hold. NOT_RUN means the input it needs is unavailable, which for a private clinical cohort is the expected outcome and is never an invitation to substitute a number. BLOCKED means an external resource is required and is not present in this checkout. overall_status covers every check; code_status covers the same set without the manuscript-arithmetic family, so a discrepancy inside the manuscript's own tables is not confused with a defect in this release."
+}

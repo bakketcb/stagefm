@@ -1,0 +1,31 @@
+Official sources for every external resource this project reads or names.
+
+Every URL below was requested during the verification pass with a follow-redirects
+client, answered with HTTP 200, and the returned document was checked to name the
+resource on the line. A URL that could not be resolved, or whose document did not
+name the resource, is omitted rather than guessed; the verification report records
+which ones were probed (check env.dataset_links).
+
+The private multi-centre clinical cohort (Sites A-E, Regions I-III) is not listed.
+It is not distributed through any public repository, it is held under a data-usage
+statement issued by the corresponding author, and it cannot be redistributed. The
+manuscript's own data-availability statement says the same.
+
+Merlin, abdominal CT vision-language foundation model, repository, accessed 2026-09-25	https://github.com/StanfordMIMI/Merlin
+Merlin, model weights and organisation page on Hugging Face (gated; a token and acceptance of the data-use agreement are required), accessed 2026-09-25	https://huggingface.co/stanfordmimi/Merlin
+Merlin, the model and dataset paper in Nature, DOI 10.1038/s41586-026-10181-8, accessed 2026-09-25	https://www.nature.com/articles/s41586-026-10181-8
+Merlin, preprint record on arXiv 2406.06512, accessed 2026-09-25	https://arxiv.org/abs/2406.06512
+TotalSegmentator, repository for the 104-structure abdominal CT reference segmentation, accessed 2026-09-25	https://github.com/wasserth/TotalSegmentator
+TotalSegmentator, CT dataset record on Zenodo, DOI 10.5281/zenodo.6802613, accessed 2026-09-25	https://doi.org/10.5281/zenodo.6802613
+FLARE, official repository of the MICCAI FLARE challenges including FLARE 2023, accessed 2026-09-25	https://github.com/JunMa11/FLARE
+FLARE, FLARE 2023 abdominal organ and pan-cancer segmentation dataset record on Zenodo, accessed 2026-09-25	https://zenodo.org/records/7844942
+FLARE, challenge report on arXiv 2408.12534, accessed 2026-09-25	https://arxiv.org/abs/2408.12534
+FLARE, FLARE 2023 competition and data-request page on CodaLab, accessed 2026-09-25	https://codalab.lisn.upsaclay.fr/competitions/12239
+
+Access conditions. Merlin's weights and its paired CT-report dataset are released
+under a data-use agreement and are gated on Hugging Face; the encoder is therefore
+not bundled here and no clinical claim in this release depends on it. TotalSegmentator
+and FLARE 2023 are openly downloadable, the former directly and the latter after
+registering on the challenge page and signing its rule agreement. Neither public
+resource contains gastric-cancer stage labels, and neither contributes any clinical
+evidence to the endpoints reported in the manuscript.

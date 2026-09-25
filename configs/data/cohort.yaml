@@ -1,0 +1,49 @@
+# Cohort contract, imaging preprocessing and the descriptor pipeline.
+# Site medians and layer sizes are the manuscript's reported values (Methods Sec. 4.1,
+# Sec. 2.4, Table 1); the Hounsfield window and the descriptor-filter thresholds are
+# engineering defaults because the manuscript does not state them.
+
+cohort:
+  sites: [A, B, C, D, E]
+  regions:
+    A: I
+    B: I
+    C: II
+    D: III
+    E: III
+  development_sites: [A, B, C]
+  external_sites: [D, E]
+  train_size: 5868
+  internal_test_size: 1960
+  external_size: 3456
+  prospective_size: 1850
+  seed_count: 5
+  median_harvested_nodes:
+    A: 32
+    B: 27
+    C: 21
+    D: 18
+    E: 16
+  adequate_node_yield: 16
+  scanner_vendors: [Siemens, GE, Philips, Toshiba]
+  modalities: [ct, radiomics, clinical, endoscopy, pathology]
+
+imaging:
+  spacing_mm: [1.0, 1.0, 1.0]
+  hu_window: [-150.0, 250.0]
+  bias_field_sigma_mm: 40.0
+  intensity_standardisation: zscore
+  patch_grid: [96, 96, 64]
+  shell_inner_mm: 0.0
+  shell_outer_mm: 5.0
+  rotate_degrees: 5.0
+  scale_fraction: 0.05
+  intensity_jitter_hu: 20.0
+
+radiomics:
+  families: [firstorder, shape, glcm, glrlm, glszm, gldm, ngtdm]
+  stability_repeats: 12
+  stability_icc_threshold: 0.75
+  redundancy_pearson_threshold: 0.90
+  standardise_scope: per_site
+  descriptor_cap: 64

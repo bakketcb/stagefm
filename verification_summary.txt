@@ -1,0 +1,73 @@
+release verification summary
+package         : stagefm
+release slug    : stagefm
+overall status  : UNVERIFIED
+code status     : PARTIALLY_VERIFIED
+manuscript fails: 1
+checks          : PASS 58  FAIL 1  NOT_RUN 1  BLOCKED 2
+claim mapping   : 65 claims, 124 anchors
+artefacts       : verification_report.json, claim_to_code.json, integrity_manifest.json
+
+per-check status
+  PASS      pass1.claim_mapping
+  PASS      pass2.data_read
+  PASS      pass2.forward
+  PASS      pass2.objective
+  PASS      pass2.backward_update
+  PASS      pass2.checkpoint_roundtrip
+  PASS      pass2.single_batch_overfit
+  PASS      pass2.minimal_training_loop
+  PASS      indep.projection_closed_form
+  PASS      indep.projection_degenerate
+  PASS      indep.achievable_set
+  PASS      indep.achievable_membership
+  PASS      indep.boundary_rule
+  PASS      indep.boundary_shift
+  PASS      indep.auc_bruteforce
+  PASS      indep.macro_auroc
+  PASS      indep.ordinal_auroc
+  PASS      indep.delong_variance
+  PASS      indep.icc_anova
+  PASS      indep.net_benefit
+  PASS      indep.decision_curve_references
+  PASS      indep.ece_hand
+  PASS      indep.mcnemar_exact
+  PASS      indep.nri_components
+  PASS      indep.ordinal_head_structure
+  PASS      indep.cut_point_monotonicity
+  PASS      indep.ordinal_loss_hand
+  PASS      indep.decision_loss_surrogate
+  PASS      indep.calibration_affine
+  PASS      indep.threshold_selection
+  PASS      indep.lora_zero_init
+  PASS      indep.lora_freezes_base
+  PASS      indep.modality_dropout_rate
+  PASS      indep.dropout_never_invents
+  PASS      indep.shell_geometry
+  PASS      indep.descriptor_determinism
+  PASS      indep.redundancy_collapse
+  PASS      indep.per_site_standardisation
+  PASS      indep.standardiser_unseen_site
+  PASS      indep.schedule_shape
+  PASS      indep.bh_adjustment
+  PASS      indep.interaction_ratio
+  PASS      indep.kappa_library
+  PASS      indep.concordance_hand
+  PASS      indep.joint_distribution
+  PASS      ms.interaction_discordance
+  PASS      ms.interaction_ratio_reported
+  FAIL      ms.interaction_concordance_reported  the same estimator applied to the four Table 4 concordance rows gives 0.57, while the text reports 0
+  PASS      ms.variance_reduction
+  PASS      ms.retention_share
+  PASS      ms.cohort_arithmetic
+  PASS      ms.missingness_shares
+  PASS      ms.discordance_reductions
+  PASS      ms.clinical_relevance
+  PASS      ms.t_axis_parity
+  PASS      ms.endpoint_interval
+  PASS      ms.decision_curve_values
+  PASS      env.host_runtime
+  NOT_RUN   env.private_cohort_clinical          the multi-centre cohort is held under a data-usage statement and is not redistributed; the shipped p
+  BLOCKED   env.auxiliary_datasets               the released abdominal CT encoder weights and the two segmentation resources are downloaded separate
+  BLOCKED   env.container_build                  no container runtime is present on this host
+  PASS      env.dataset_links

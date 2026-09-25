@@ -1,0 +1,32 @@
+# Optimisation profile (Methods Sec. 4.7): AdamW with decoupled weight decay of
+# 1e-4, a maximum learning rate of 3e-4 for the fusion and prediction parameters and
+# 1e-4 for the adapters, cosine decay with a linear warmup over the first 500 steps,
+# gradient clipping at 1.0, batches of eight examinations, at most 60 epochs with
+# early stopping at patience 8, and one node with four accelerators.
+
+batch_size: 8
+grad_accum: 1
+epochs: 60
+early_stopping_patience: 8
+precision: bf16
+num_workers: 4
+eval_every: 1
+checkpoint_every: 5
+use_ema: false
+ema_decay: 0.999
+
+optim:
+  name: adamw
+  lr_fusion: 3.0e-4
+  lr_adapter: 1.0e-4
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+
+schedule:
+  name: cosine
+  warmup_steps: 500
+
+hardware:
+  world_size: 4
+  accelerator_hours: 3100.0
+  accelerator_memory_gb: 80.0

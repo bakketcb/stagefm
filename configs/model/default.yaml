@@ -1,0 +1,56 @@
+# Model configuration: encoder and adaptation, fusion, ordinal heads, risk control
+# and the objective weights.
+#
+# Values the manuscript states (Methods Sec. 4.5-4.7): low-rank rank 16 with alpha 32
+# on the query, key, value and output projections; modality dropout 0.15; four-class
+# tumour axis with the subdivisions merged, four-category ordinal nodal axis, binary
+# metastatic axis.
+#
+# Values the manuscript does not state are labelled below and recorded in the
+# deviations list of claim_to_code.json.
+
+encoder:
+  name: merlin
+  # Path to a locally available checkout of the released encoder. Left unset because
+  # the weights are distributed under a data-use agreement; see claim_to_code.json.
+  weights_path: null
+  embed_dim: 384
+  depth: 8
+  num_heads: 6
+  patch_size: 16
+  freeze_backbone: true
+  adaptation:
+    rank: 16
+    alpha: 32
+    targets: [q_proj, k_proj, v_proj, out_proj]
+
+fusion:
+  embed_dim: 384
+  num_heads: 6
+  layers: 2
+  dropout: 0.1
+  modality_dropout: 0.15
+  image_token_cap: 256
+  presence_embedding: true
+
+ordinal:
+  axes:
+    t_classes: 4
+    n_classes: 4
+    m_classes: 2
+  cut_point_margin: 0.001
+
+risk:
+  affine_scope: site
+  threshold_grid: [0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.22, 0.24, 0.26, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38, 0.40, 0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.62, 0.64, 0.66, 0.68, 0.70, 0.72, 0.74, 0.76, 0.78, 0.80, 0.82, 0.84, 0.86, 0.88, 0.90, 0.92, 0.94, 0.96, 0.98]
+  confidence: 0.05
+  min_stratum_size: 24
+  transfer_corrections: true
+
+loss:
+  # The manuscript writes the objective as L_ordinal + lambda * L_decision +
+  # gamma * L_calibration without giving the weights; both are engineering defaults.
+  lambda_decision: 0.5
+  gamma_calibration: 0.1
+  ordinal_weighting: cumulative
+  calibration_variant: site_gap

@@ -1,0 +1,23 @@
+# Table 3 arm B4: full fine-tuning with independent T, N and M heads and no feasibility enforcement.
+# Anchor: Table 3 arm B4; Methods Sec. 4.8
+extends:
+  data: data/cohort.yaml
+  model: model/default.yaml
+  train: train/default.yaml
+
+experiment:
+  name: baseline_finetuned_independent_heads
+  seed: 0
+  streams: [ct, radiomics, clinical, endoscopy, pathology]
+  ablations: {stage_consistency: true
+      ordinal: true}
+  evaluation:
+    output_dir: runs
+    achievable_rule: staging
+    bootstrap_resamples: 2000
+    fusion_strategy: cross_attention
+    post_hoc_projection: false
+    synthetic:
+      site_dispersion: 0.30
+      feature_noise: 0.55
+      endoscopy_hint_weight: 0.35

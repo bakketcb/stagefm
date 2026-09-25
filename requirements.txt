@@ -1,0 +1,15 @@
+# Runtime dependencies, pinned to the versions the verification pass ran against.
+numpy==2.4.3
+scipy==1.17.1
+scikit-learn==1.8.0
+statsmodels==0.14.6
+pandas==3.0.1
+PyYAML==6.0.3
+torch==2.11.0
+
+# Development and verification tooling.
+pytest==9.0.3
+ruff
+mypy
+black
+isort

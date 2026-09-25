@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stagefm"
+version = "0.1.0"
+description = "Stage-consistent multimodal radiomics foundation model for preoperative gastric cancer staging"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+dependencies = [
+  "numpy==2.4.3",
+  "scipy==1.17.1",
+  "scikit-learn==1.8.0",
+  "statsmodels==0.14.6",
+  "pandas==3.0.1",
+  "PyYAML==6.0.3",
+  "torch==2.11.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.0.3",
+  "ruff",
+  "mypy",
+  "black",
+  "isort",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 160
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RET", "PTH"]
+# UP042: the stage/stream enums are (str, Enum) mixins so `.value` serialises straight to
+# YAML and JSON; E741: the manuscript labels the three regions "I", "II" and "III".
+ignore = ["E501", "B905", "SIM108", "UP042", "E741"]
+
+[tool.black]
+line-length = 160
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 160
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+warn_unused_ignores = false
+exclude = ["tests", "scripts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
+filterwarnings = ["ignore::DeprecationWarning"]

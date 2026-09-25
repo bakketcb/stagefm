@@ -1,0 +1,29 @@
+# Directory entries are anchored to the repository root: this project has both a
+# cohort root (/data/) and a source package directory (src/stagefm/data/), so an
+# unanchored data/ rule would silently exclude the whole data module and
+# configs/data/ from the commit.
+/data/
+/runs/
+/runs_smoke/
+/models/
+/artifacts/
+/data/raw/
+/data/processed/
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+.DS_Store

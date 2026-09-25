@@ -1,0 +1,60 @@
+Third-party material
+
+This release is the authors' own implementation of the work described in "A
+Multimodal Radiomics Foundation Model for Gastric Cancer Staging in Real-World
+Multi-Center Imaging Cohorts". It bundles no third-party code, no third-party
+weights and no third-party data. The resources below are named because the
+implementation interoperates with them or because the manuscript's preprocessing
+depends on them. Copyright in each remains with its authors.
+
+Datasets and models
+
+1. Abdominal CT vision-language foundation model and its paired CT-report dataset
+   (the manuscript's Ref. [26]).
+   Repository:   https://github.com/StanfordMIMI/Merlin
+   Weights page: https://huggingface.co/stanfordmimi/Merlin
+   Paper:        https://www.nature.com/articles/s41586-026-10181-8
+   Licence:      distributed under a data-use agreement; access to the weights and
+                 the paired dataset is gated and requires accepting that agreement.
+                 Neither the weights nor the data are redistributed here. The
+                 pipeline loads them only when a local checkpoint path is configured,
+                 and records in its run metadata which encoder was used.
+   Role:         the frozen image encoder whose attention projections carry the
+                 low-rank adapters.
+
+2. TotalSegmentator CT dataset (the manuscript's Ref. [59]).
+   Repository:   https://github.com/wasserth/TotalSegmentator
+   Dataset:      https://doi.org/10.5281/zenodo.6802613
+   Paper:        Wasserthal et al., Radiology: Artificial Intelligence 5, e230024 (2023).
+   Licence:      the dataset is published under a Creative Commons Attribution
+                 licence; consult the record's own terms before redistribution.
+   Role:         reference organ definition for abdominal localisation in
+                 preprocessing.
+
+3. FLARE 2023 abdominal organ and pan-cancer segmentation challenge dataset (the
+   manuscript's Ref. [60]).
+   Repository:   https://github.com/JunMa11/FLARE
+   Dataset:      https://zenodo.org/records/7844942
+   Request page: https://codalab.lisn.upsaclay.fr/competitions/12239
+   Paper:        Ma et al., arXiv:2408.12534 (2024).
+   Licence:      distributed after registration on the challenge page and signature
+                 of the challenge rule agreement; consult those terms before
+                 redistribution.
+   Role:         pan-cancer abdominal organ and lesion pretraining for the
+                 localisation stage.
+
+Software
+
+The implementation depends on PyTorch, NumPy, SciPy, scikit-learn, statsmodels,
+pandas and PyYAML, all under their own licences, and on pytest, ruff, black, isort
+and mypy as development tooling. No source from those projects is copied into this
+repository; they are consumed as installed packages.
+
+Clinical cohort
+
+The multi-centre gastric-cancer cohort (Sites A-E) is not third-party material and
+is not redistributed. It is held under a data-usage statement issued by the
+corresponding author. The records cannot be released at record level, and the
+cohort-level clinical quantities reported in the manuscript are produced from the
+real cohort only, never from the schema-compatible generator shipped here for
+execution and verification purposes.

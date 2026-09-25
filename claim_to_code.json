@@ -1,0 +1,1217 @@
+{
+  "artifact": "paper-claim to code mapping",
+  "release": "A Multimodal Radiomics Foundation Model for Gastric Cancer Staging in Real-World Multi-Center Imaging Cohorts",
+  "venue": "npj Digital Medicine",
+  "package_dir": "src/stagefm",
+  "anchor_convention": "code[].path is relative to package_dir; code[].symbol is a module-level name, or Class.method for a method",
+  "verification_vocabulary": {
+    "EXECUTED": "the anchor resolved and the mechanism runs on this host",
+    "UNRESOLVED": "the anchor did not resolve to a real file and symbol",
+    "NOT_RUN_PRIVATE_COHORT": "the mechanism is implemented, but the value it would produce is a cohort-level clinical quantity and the cohort is private",
+    "BLOCKED_AUX_DATASET": "the mechanism is implemented, but its input is an external resource that is downloaded separately"
+  },
+  "claims": [
+    {
+      "id": "sec2.2-primary-endpoint",
+      "paper_location": "Sec. 2.2; Methods Sec. 4.1",
+      "claim": "The primary endpoint is treatment-boundary discordance: the share of examinations whose predicted stage implies a different management category from the one surgical pathology supports.",
+      "code": [
+        {
+          "path": "metrics/decision.py",
+          "symbol": "boundary_discordance",
+          "resolved": true
+        },
+        {
+          "path": "data/staging.py",
+          "symbol": "treatment_category",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.2-boundary-rule",
+      "paper_location": "Methods Sec. 4.1 (treatment-boundary labels)",
+      "claim": "A single pre-defined rule maps a stage onto a management category and takes no site-varying input.",
+      "code": [
+        {
+          "path": "data/staging.py",
+          "symbol": "treatment_category",
+          "resolved": true
+        },
+        {
+          "path": "data/staging.py",
+          "symbol": "boundary_discordant",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.2-feasibility",
+      "paper_location": "Sec. 2.2; Table 3",
+      "claim": "Stage feasibility rises from 71.3 percent for independent heads to 100 percent under the constrained model.",
+      "code": [
+        {
+          "path": "metrics/feasibility.py",
+          "symbol": "feasibility_rate",
+          "resolved": true
+        },
+        {
+          "path": "models/stage_consistency.py",
+          "symbol": "FeasibilityProjection",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.3-interaction",
+      "paper_location": "Sec. 2.3; Table 4",
+      "claim": "With the configuration lacking both structural components as reference, the two contribute 1.41 and 3.05 points separately and 5.80 jointly, an interaction ratio of 1.30.",
+      "code": [
+        {
+          "path": "stats/multiplicity.py",
+          "symbol": "interaction_ratio",
+          "resolved": true
+        },
+        {
+          "path": "stats/multiplicity.py",
+          "symbol": "InteractionDecomposition",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.4-ascertainment",
+      "paper_location": "Sec. 2.4; Fig. 2",
+      "claim": "Nodal-axis error tracks the site's median harvested node count while tumour-axis error does not.",
+      "code": [
+        {
+          "path": "evaluation/ascertainment.py",
+          "symbol": "ascertainment_report",
+          "resolved": true
+        },
+        {
+          "path": "stats/correlation.py",
+          "symbol": "pearson",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.4-variance-reduction",
+      "paper_location": "Sec. 2.4; Fig. 2 caption",
+      "claim": "Restricting to examinations with at least 16 harvested nodes removes 71% of the between-site variance in nodal error.",
+      "code": [
+        {
+          "path": "stats/icc.py",
+          "symbol": "decompose",
+          "resolved": true
+        },
+        {
+          "path": "stats/icc.py",
+          "symbol": "variance_reduction",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.5-subgroups",
+      "paper_location": "Sec. 2.5",
+      "claim": "The adequacy stratum carries the largest subgroup gap, and the sex, age and vendor families stay within the null bands.",
+      "code": [
+        {
+          "path": "evaluation/subgroups.py",
+          "symbol": "subgroup_report",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/subgroups.py",
+          "symbol": "family_summary",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.8-silent-mode",
+      "paper_location": "Sec. 2.8; Table 1",
+      "claim": "Deployment was silent, the panel was opened in 1,446 of 1,850 examinations, and no examination was delayed.",
+      "code": [
+        {
+          "path": "evaluation/silent_mode.py",
+          "symbol": "summarise_deployment",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/silent_mode.py",
+          "symbol": "stratified_open_rate",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.10-in-vitro",
+      "paper_location": "Sec. 2.10; Methods Sec. 4.10",
+      "claim": "Conditioned medium from high-VEGF-C lines raised the tube-formation index and VEGFR-3 phosphorylation, and VEGF-C knockdown removed both effects.",
+      "code": [
+        {
+          "path": "evaluation/in_vitro.py",
+          "symbol": "knockdown_reversal",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/in_vitro.py",
+          "symbol": "blocked_condition_effect",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.10-texture-density",
+      "paper_location": "Sec. 2.10",
+      "claim": "The peritumoral texture feature carrying the nodal signal correlates with lymphatic vessel density on resection material.",
+      "code": [
+        {
+          "path": "evaluation/in_vitro.py",
+          "symbol": "texture_density_correlation",
+          "resolved": true
+        },
+        {
+          "path": "stats/correlation.py",
+          "symbol": "spearman_with_bootstrap",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec2.11-worse-than-baseline",
+      "paper_location": "Sec. 2.11",
+      "claim": "In the earliest T stratum the nodal area under the curve falls below the independent-head arm, and in the diffuse stratum the metastatic axis falls below the imaging-only network, both within the 0.02 minimum clinically important difference.",
+      "code": [
+        {
+          "path": "evaluation/subgroups.py",
+          "symbol": "MINIMUM_CLINICALLY_IMPORTANT_AUROC",
+          "resolved": true
+        },
+        {
+          "path": "models/baselines.py",
+          "symbol": "BASELINES",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.1-layers",
+      "paper_location": "Methods Sec. 4.1",
+      "claim": "Development is 7,828 records (5,868 training and 1,960 internal test) from three sites, and 3,456 records from two further sites form the external layer with no contribution to training, selection or calibration.",
+      "code": [
+        {
+          "path": "data/cohort.py",
+          "symbol": "layer_sizes",
+          "resolved": true
+        },
+        {
+          "path": "utils/config.py",
+          "symbol": "CohortConfig",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.1-label-space",
+      "paper_location": "Methods Sec. 4.1",
+      "claim": "The tumour axis is a four-category grouping with T4a and T4b merged, the nodal axis is ordinal over four categories, and the metastatic axis is binary.",
+      "code": [
+        {
+          "path": "data/schema.py",
+          "symbol": "StageTriple",
+          "resolved": true
+        },
+        {
+          "path": "data/schema.py",
+          "symbol": "ALL_TRIPLES",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.1-site-split",
+      "paper_location": "Methods Sec. 4.1; Sec. 4.6",
+      "claim": "Whole sites are held out rather than random patients, because the claim concerns transport to an unseen site.",
+      "code": [
+        {
+          "path": "data/cohort.py",
+          "symbol": "CohortSplit",
+          "resolved": true
+        },
+        {
+          "path": "data/synthetic.py",
+          "symbol": "generate_cohort",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-isotropic",
+      "paper_location": "Methods Sec. 4.3",
+      "claim": "Volumes are resampled to 1x1x1 mm isotropic spacing.",
+      "code": [
+        {
+          "path": "data/imaging.py",
+          "symbol": "resample_isotropic",
+          "resolved": true
+        },
+        {
+          "path": "utils/config.py",
+          "symbol": "ImagingConfig",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-hu-window",
+      "paper_location": "Methods Sec. 4.3",
+      "claim": "An abdominal Hounsfield window is applied to the volumes.",
+      "code": [
+        {
+          "path": "data/imaging.py",
+          "symbol": "apply_hu_window",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-bias-field",
+      "paper_location": "Methods Sec. 4.3",
+      "claim": "Bias-field correction and per-examination intensity standardisation are applied.",
+      "code": [
+        {
+          "path": "data/imaging.py",
+          "symbol": "correct_bias_field",
+          "resolved": true
+        },
+        {
+          "path": "data/imaging.py",
+          "symbol": "standardise_intensity",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-localisation",
+      "paper_location": "Methods Sec. 4.3",
+      "claim": "The gastric wall and the nodal basin are localised automatically, with no manual lesion definition.",
+      "code": [
+        {
+          "path": "data/segmentation.py",
+          "symbol": "localise",
+          "resolved": true
+        },
+        {
+          "path": "data/segmentation.py",
+          "symbol": "nodal_basin_mask",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-shell",
+      "paper_location": "Methods Sec. 4.3",
+      "claim": "Radiomic descriptors are computed on the region between 0 and 5 mm outside the localised wall and basin boundary.",
+      "code": [
+        {
+          "path": "data/segmentation.py",
+          "symbol": "peritumoral_shell",
+          "resolved": true
+        },
+        {
+          "path": "data/radiomics.py",
+          "symbol": "extract_descriptors",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-stability",
+      "paper_location": "Methods Sec. 4.3; Ref. [56]",
+      "claim": "Only descriptors that survive a stability criterion across independently repeated segmentations are retained.",
+      "code": [
+        {
+          "path": "data/radiomics.py",
+          "symbol": "stability_select",
+          "resolved": true
+        },
+        {
+          "path": "data/radiomics.py",
+          "symbol": "intraclass_correlation",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-redundancy",
+      "paper_location": "Methods Sec. 4.3; Ref. [57]",
+      "claim": "Correlated descriptor families are collapsed to one representative per block rather than entered jointly.",
+      "code": [
+        {
+          "path": "data/radiomics.py",
+          "symbol": "collapse_redundant",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.3-per-site-zscore",
+      "paper_location": "Methods Sec. 4.3",
+      "claim": "Descriptors are z-scored within each site using development-set statistics alone.",
+      "code": [
+        {
+          "path": "data/radiomics.py",
+          "symbol": "SiteStandardiser",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.4-auxiliary",
+      "paper_location": "Methods Sec. 4.4; Data availability",
+      "claim": "Three public resources support preprocessing and pretraining and contribute no clinical evidence.",
+      "code": [
+        {
+          "path": "models/encoder.py",
+          "symbol": "build_encoder",
+          "resolved": true
+        },
+        {
+          "path": "models/encoder.py",
+          "symbol": "EncoderUnavailable",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-encoder",
+      "paper_location": "Methods Sec. 4.5",
+      "claim": "The encoder is the released abdominal CT vision-language model, used frozen with low-rank adaptation on the attention projections.",
+      "code": [
+        {
+          "path": "models/encoder.py",
+          "symbol": "CompactCTEncoder",
+          "resolved": true
+        },
+        {
+          "path": "models/lora.py",
+          "symbol": "apply_lora",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-fusion",
+      "paper_location": "Methods Sec. 4.5",
+      "claim": "The fusion block combines the encoder's patch tokens with the radiomic, structured clinical and text streams.",
+      "code": [
+        {
+          "path": "models/fusion.py",
+          "symbol": "CrossAttentionFusion",
+          "resolved": true
+        },
+        {
+          "path": "models/fusion.py",
+          "symbol": "FusionInputs",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-absence-token",
+      "paper_location": "Methods Sec. 4.5; Sec. 4.11",
+      "claim": "A stream unavailable at the point of care is represented by an absence token rather than imputed.",
+      "code": [
+        {
+          "path": "models/fusion.py",
+          "symbol": "CrossAttentionFusion",
+          "resolved": true
+        },
+        {
+          "path": "data/text.py",
+          "symbol": "TextVocabulary",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-ordinal-head",
+      "paper_location": "Methods Sec. 4.5; Sec. 4.6",
+      "claim": "Each axis uses a monotonic ordinal head whose single latent score passes through ordered cut points, so the ordinal structure cannot be disrupted.",
+      "code": [
+        {
+          "path": "models/ordinal.py",
+          "symbol": "MonotonicOrdinalHead",
+          "resolved": true
+        },
+        {
+          "path": "models/ordinal.py",
+          "symbol": "StagingHeads",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-stage-consistency",
+      "paper_location": "Methods Sec. 4.5; Algorithm 1 step 8",
+      "claim": "The axis distributions are composed into a joint distribution over stage combinations and projected onto the achievable set, deterministically and differentiably.",
+      "code": [
+        {
+          "path": "models/stage_consistency.py",
+          "symbol": "joint_distribution",
+          "resolved": true
+        },
+        {
+          "path": "models/stage_consistency.py",
+          "symbol": "FeasibilityProjection",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "alg3-projection",
+      "paper_location": "Algorithm 3",
+      "claim": "The projection renormalises the mass on the achievable set, sets the rest to zero, and returns the uniform distribution on that set when no mass falls there.",
+      "code": [
+        {
+          "path": "models/stage_consistency.py",
+          "symbol": "FeasibilityProjection",
+          "resolved": true
+        },
+        {
+          "path": "models/stage_consistency.py",
+          "symbol": "ProjectionOutput",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.6-achievable-set",
+      "paper_location": "Methods Sec. 4.6",
+      "claim": "The achievable set is established from staging definitions rather than derived from the data, so feasibility is a statement about the staging system.",
+      "code": [
+        {
+          "path": "data/staging.py",
+          "symbol": "AchievableSet",
+          "resolved": true
+        },
+        {
+          "path": "data/staging.py",
+          "symbol": "AchievableRule",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.6-modality-dropout",
+      "paper_location": "Methods Sec. 4.6; Sec. 4.7",
+      "claim": "Modality dropout is 0.15 per non-imaging stream.",
+      "code": [
+        {
+          "path": "data/streams.py",
+          "symbol": "dropout_rates",
+          "resolved": true
+        },
+        {
+          "path": "utils/config.py",
+          "symbol": "FusionConfig",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-risk-control",
+      "paper_location": "Methods Sec. 4.5; Sec. 4.6",
+      "claim": "Calibration applies an affine correction on the logit scale indexed by site, and the decision threshold is chosen per site stratum by minimising the empirical boundary error.",
+      "code": [
+        {
+          "path": "models/risk_control.py",
+          "symbol": "SiteCalibrator",
+          "resolved": true
+        },
+        {
+          "path": "models/risk_control.py",
+          "symbol": "select_thresholds",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.5-threshold-freeze",
+      "paper_location": "Methods Sec. 4.5; Algorithm 1 step 12",
+      "claim": "The threshold is chosen on the internal test split and then frozen, and is never recalibrated on the cohort it is reported for.",
+      "code": [
+        {
+          "path": "training/trainer.py",
+          "symbol": "Trainer",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "alg2-finite-sample-bound",
+      "paper_location": "Algorithm 2 step 7",
+      "claim": "A finite-sample upper bound on the site-conditional error is reported with each threshold and covers the whole grid by a union bound.",
+      "code": [
+        {
+          "path": "models/risk_control.py",
+          "symbol": "ThresholdSelection",
+          "resolved": true
+        },
+        {
+          "path": "models/risk_control.py",
+          "symbol": "select_thresholds",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-optimizer",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "AdamW with decoupled weight decay of 1e-4, a maximum learning rate of 3e-4 for fusion and prediction parameters and 1e-4 for the adapters, gradient clipping at 1.0.",
+      "code": [
+        {
+          "path": "training/optim.py",
+          "symbol": "build_optimizer",
+          "resolved": true
+        },
+        {
+          "path": "utils/config.py",
+          "symbol": "TrainConfig",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-schedule",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "Cosine decay with a linear warmup over the first 500 steps.",
+      "code": [
+        {
+          "path": "training/scheduler.py",
+          "symbol": "ScheduleSpec",
+          "resolved": true
+        },
+        {
+          "path": "training/scheduler.py",
+          "symbol": "build_scheduler",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-lora-config",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "Rank 16 with alpha 32 on the query, key, value and output projections of the vision encoder, with every other encoder weight frozen.",
+      "code": [
+        {
+          "path": "models/lora.py",
+          "symbol": "LoRALinear",
+          "resolved": true
+        },
+        {
+          "path": "utils/config.py",
+          "symbol": "EncoderConfig",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-batch-and-grid",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "Batches of eight examinations remapped into a fixed 96 x 96 x 64 voxel patch grid, at most 60 epochs with early stopping at patience 8.",
+      "code": [
+        {
+          "path": "utils/config.py",
+          "symbol": "TrainConfig",
+          "resolved": true
+        },
+        {
+          "path": "utils/config.py",
+          "symbol": "ImagingConfig",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-augmentation",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "Augmentation is limited to a bounded affine perturbation and a bounded intensity jitter that do not alter staging-relevant anatomy.",
+      "code": [
+        {
+          "path": "data/imaging.py",
+          "symbol": "augment_volume",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-runs",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "Five independent runs per configuration, with the mean reported and the standard deviation across runs in the table.",
+      "code": [
+        {
+          "path": "utils/config.py",
+          "symbol": "CohortConfig",
+          "resolved": true
+        },
+        {
+          "path": "utils/seeding.py",
+          "symbol": "set_seed",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-compute",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "One node with four accelerators and 80 GB of memory per node, about 3,100 accelerator-hours.",
+      "code": [
+        {
+          "path": "utils/config.py",
+          "symbol": "TrainConfig",
+          "resolved": true
+        },
+        {
+          "path": "training/distributed.py",
+          "symbol": "DistributedContext",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "alg1-objective",
+      "paper_location": "Algorithm 1 step 9",
+      "claim": "The objective sums the ordinal loss, a decision term weighted by lambda and a calibration term weighted by gamma.",
+      "code": [
+        {
+          "path": "losses/total.py",
+          "symbol": "staged_objective",
+          "resolved": true
+        },
+        {
+          "path": "losses/total.py",
+          "symbol": "LossBreakdown",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "alg1-ordinal-loss",
+      "paper_location": "Algorithm 1 steps 5-9",
+      "claim": "The ordinal term is the negative log-likelihood of the cumulative-link model on the head's cumulative logits.",
+      "code": [
+        {
+          "path": "losses/ordinal.py",
+          "symbol": "cumulative_link_loss",
+          "resolved": true
+        },
+        {
+          "path": "losses/ordinal.py",
+          "symbol": "ordinal_loss",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "alg1-decision-loss",
+      "paper_location": "Algorithm 1 step 9; Sec. 4.1",
+      "claim": "The decision term is a differentiable surrogate of the boundary error read off the projected distribution.",
+      "code": [
+        {
+          "path": "losses/decision.py",
+          "symbol": "decision_loss",
+          "resolved": true
+        },
+        {
+          "path": "losses/decision.py",
+          "symbol": "discordance_surrogate",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "alg1-calibration-loss",
+      "paper_location": "Algorithm 1 step 9; Sec. 4.11",
+      "claim": "The calibration term penalises the site-level gap between mean predicted probability and observed frequency.",
+      "code": [
+        {
+          "path": "losses/calibration.py",
+          "symbol": "calibration_loss",
+          "resolved": true
+        },
+        {
+          "path": "losses/calibration.py",
+          "symbol": "site_gap_loss",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.8-baselines",
+      "paper_location": "Methods Sec. 4.8; Table 3",
+      "claim": "Eleven arms are compared on the same external cohort with the same tuning budget, and arms whose values are quoted rather than computed are marked as such.",
+      "code": [
+        {
+          "path": "models/baselines.py",
+          "symbol": "BASELINES",
+          "resolved": true
+        },
+        {
+          "path": "models/baselines.py",
+          "symbol": "QUOTED_ARMS",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.8-stream-only-arms",
+      "paper_location": "Methods Sec. 4.8",
+      "claim": "Single-modality arms read only their own stream on the same token contract as the full model.",
+      "code": [
+        {
+          "path": "models/baselines.py",
+          "symbol": "StreamOnlyModel",
+          "resolved": true
+        },
+        {
+          "path": "models/baselines.py",
+          "symbol": "build_arm",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.9-reader-study",
+      "paper_location": "Methods Sec. 4.9",
+      "claim": "Eighteen readers read 360 examinations twice in a paired within-reader design, unassisted session first, with a washout interval between sessions.",
+      "code": [
+        {
+          "path": "evaluation/reader_study.py",
+          "symbol": "ReaderStudyDesign",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/reader_study.py",
+          "symbol": "reader_study_report",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.9-paired-analysis",
+      "paper_location": "Methods Sec. 4.9",
+      "claim": "The reader analysis is paired on reader and case, and its interval comes from resampling the paired observations.",
+      "code": [
+        {
+          "path": "evaluation/reader_study.py",
+          "symbol": "paired_reader_difference",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-delong",
+      "paper_location": "Methods Sec. 4.11",
+      "claim": "Discrimination on every axis is summarised with DeLong intervals.",
+      "code": [
+        {
+          "path": "stats/delong.py",
+          "symbol": "delong_auc_ci",
+          "resolved": true
+        },
+        {
+          "path": "stats/delong.py",
+          "symbol": "macro_auc_ci",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-ordinal-auroc",
+      "paper_location": "Methods Sec. 4.11",
+      "claim": "The nodal axis is summarised by a one-dimensional ordinal summary rather than by a binary threshold.",
+      "code": [
+        {
+          "path": "metrics/discrimination.py",
+          "symbol": "ordinal_auroc",
+          "resolved": true
+        },
+        {
+          "path": "metrics/discrimination.py",
+          "symbol": "axis_discrimination",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-kappa",
+      "paper_location": "Methods Sec. 4.11; Table 3",
+      "claim": "Weighted kappa and the exact three-axis match rate summarise agreement with pathology.",
+      "code": [
+        {
+          "path": "metrics/concordance.py",
+          "symbol": "weighted_kappa",
+          "resolved": true
+        },
+        {
+          "path": "metrics/concordance.py",
+          "symbol": "exact_combination_concordance",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-ece",
+      "paper_location": "Methods Sec. 4.11; Fig. 3",
+      "claim": "Expected calibration error is computed per site and pooled.",
+      "code": [
+        {
+          "path": "metrics/calibration.py",
+          "symbol": "expected_calibration_error",
+          "resolved": true
+        },
+        {
+          "path": "metrics/calibration.py",
+          "symbol": "calibration_summary",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-net-benefit",
+      "paper_location": "Methods Sec. 4.11; Fig. 4",
+      "claim": "Net benefit is computed across a threshold range and the interval on the primary endpoint comes from a bootstrap over examinations.",
+      "code": [
+        {
+          "path": "metrics/decision.py",
+          "symbol": "net_benefit",
+          "resolved": true
+        },
+        {
+          "path": "stats/bootstrap.py",
+          "symbol": "bootstrap_statistic",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-nri",
+      "paper_location": "Sec. 2.2; Methods Sec. 4.11",
+      "claim": "Net reclassification improvement is reported against the endoscopic-ultrasound standard and against the unconstrained control.",
+      "code": [
+        {
+          "path": "metrics/decision.py",
+          "symbol": "net_reclassification_improvement",
+          "resolved": true
+        },
+        {
+          "path": "metrics/decision.py",
+          "symbol": "binary_nri",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-mcnemar",
+      "paper_location": "Sec. 2.2; Methods Sec. 4.11",
+      "claim": "The reduction against the unconstrained control is tested with a paired test on the same examinations.",
+      "code": [
+        {
+          "path": "stats/mcnemar.py",
+          "symbol": "mcnemar",
+          "resolved": true
+        },
+        {
+          "path": "stats/mcnemar.py",
+          "symbol": "McNemarResult",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-variance-components",
+      "paper_location": "Methods Sec. 4.11; Algorithm 4",
+      "claim": "The between-site variance of the nodal error is decomposed with a site-level random intercept and bootstrapped within each site stratum.",
+      "code": [
+        {
+          "path": "stats/icc.py",
+          "symbol": "random_effects_decomposition",
+          "resolved": true
+        },
+        {
+          "path": "stats/bootstrap.py",
+          "symbol": "bootstrap_variance_components",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-fdr",
+      "paper_location": "Methods Sec. 4.11",
+      "claim": "Each subgroup family is corrected separately at a false-discovery-rate level fixed before the analysis.",
+      "code": [
+        {
+          "path": "stats/multiplicity.py",
+          "symbol": "benjamini_hochberg",
+          "resolved": true
+        },
+        {
+          "path": "stats/multiplicity.py",
+          "symbol": "BHResult",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-missingness",
+      "paper_location": "Methods Sec. 4.11",
+      "claim": "Nineteen records lack an endoscopic description and 61 lack pathology text, and the records are retained rather than dropped.",
+      "code": [
+        {
+          "path": "data/synthetic.py",
+          "symbol": "MISSING_ENDOSCOPY",
+          "resolved": true
+        },
+        {
+          "path": "data/synthetic.py",
+          "symbol": "MISSING_PATHOLOGY",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.11-sensitivity",
+      "paper_location": "Methods Sec. 4.11",
+      "claim": "Two sensitivity analyses are pre-specified: excluding consensus-staged examinations, and shifting the boundary-rule categories one step each way.",
+      "code": [
+        {
+          "path": "evaluation/sensitivity.py",
+          "symbol": "consensus_exclusion",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/sensitivity.py",
+          "symbol": "boundary_shift",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.12-criterion",
+      "paper_location": "Methods Sec. 4.12; Sec. 2.1",
+      "claim": "Both pre-specified criteria had to be met: exact-combination concordance of at least 0.80 and a four-class tumour-axis area under the curve of at least 0.90.",
+      "code": [
+        {
+          "path": "evaluation/report.py",
+          "symbol": "prespecified_criterion",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/report.py",
+          "symbol": "clinical_relevance",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.13-scope",
+      "paper_location": "Methods Sec. 4.13",
+      "claim": "The experiment set covers module ablations, distribution shift, the reader study, multi-site validation, a cohort study and an in vitro arm, and names what it omits.",
+      "code": [
+        {
+          "path": "models/baselines.py",
+          "symbol": "arm_table_rows",
+          "resolved": true
+        },
+        {
+          "path": "evaluation/report.py",
+          "symbol": "results_table",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-checkpoint",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "A checkpoint carries the seed and the frozen thresholds so a resumed run restores the same stream.",
+      "code": [
+        {
+          "path": "training/checkpoint.py",
+          "symbol": "save_checkpoint",
+          "resolved": true
+        },
+        {
+          "path": "training/checkpoint.py",
+          "symbol": "restore_into",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.7-amp",
+      "paper_location": "Methods Sec. 4.7",
+      "claim": "Precision is a configuration value and the run records the one it used.",
+      "code": [
+        {
+          "path": "training/amp.py",
+          "symbol": "PrecisionSpec",
+          "resolved": true
+        },
+        {
+          "path": "training/amp.py",
+          "symbol": "autocast_context",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    },
+    {
+      "id": "sec4.2-deidentification",
+      "paper_location": "Methods Sec. 4.2",
+      "claim": "Sites are represented by a code and classified into regions, and no personal identifier is carried into the analysis set.",
+      "code": [
+        {
+          "path": "data/cohort.py",
+          "symbol": "SiteProfile",
+          "resolved": true
+        },
+        {
+          "path": "data/schema.py",
+          "symbol": "Examination",
+          "resolved": true
+        }
+      ],
+      "verification": "EXECUTED"
+    }
+  ],
+  "deviations": [
+    {
+      "id": "dev1-private-cohort",
+      "paper_location": "Methods Sec. 4.1; Data availability",
+      "deviation": "The multi-centre cohort is held under a data-usage statement and is not redistributed, so the shipped pipeline reads a schema-compatible synthetic cohort instead. Every cohort-level clinical quantity (Tables 1, 3 and 4, Figs. 1-4, the per-site, subgroup and ascertainment tables) is therefore NOT_RUN, and no number computed from the generator may be presented as a study result.",
+      "justification": "the data-availability statement releases the cohort only under its own usage policy, and the records cannot be redistributed"
+    },
+    {
+      "id": "dev2-achievable-set-rule",
+      "paper_location": "Methods Sec. 4.6",
+      "deviation": "The manuscript states that the achievable set was established from staging definitions but does not enumerate it. The rule shipped here is an explicit construction from those definitions: a T1 lesion carries at most N1 involvement and no distant metastasis, a T2 lesion carries at most N2, and distant metastasis without regional node involvement is only reachable at T4. It admits 22 of the 32 combinations, a support a little below three quarters of the label space.",
+      "justification": "an engineering default was required for an unstated set; the rule is exposed in config next to the oversized and undersized variants the sensitivity analysis moves"
+    },
+    {
+      "id": "dev3-treatment-boundary-rule",
+      "paper_location": "Methods Sec. 4.1",
+      "deviation": "The manuscript does not enumerate the stage-to-category mapping. The rule shipped here follows the trial evidence it cites: a T1 lesion without nodal involvement is resected first, locally advanced but resectable disease receives perioperative chemotherapy, and distant or peritoneal disease is treated systemically.",
+      "justification": "the endpoint needs a concrete mapping, and the rule is site-independent by construction, which is the property the manuscript requires of it"
+    },
+    {
+      "id": "dev4-encoder-fallback",
+      "paper_location": "Methods Sec. 4.4-4.5",
+      "deviation": "The released abdominal CT vision-language encoder is distributed under a data-use agreement and is not bundled. When no local checkpoint is configured the pipeline uses the compact 3D vision transformer in models/encoder.py, which satisfies the same token contract and the same attention-projection naming the adapters bind to; the run metadata records which encoder was used.",
+      "justification": "no redistributable weights, and the fallback keeps every downstream module executable without silently substituting a different architecture for the reported one"
+    },
+    {
+      "id": "dev5-auxiliary-datasets",
+      "paper_location": "Methods Sec. 4.4; Data availability",
+      "deviation": "The three public auxiliary resources are downloaded separately and are absent from this checkout, so pretraining and auxiliary organ localisation are BLOCKED. Their access conditions are recorded in dataset_urls.txt, and no clinical claim depends on them.",
+      "justification": "the checkpoints and cohorts are large external downloads; nothing reported here is derived from them"
+    },
+    {
+      "id": "dev6-kappa-weighting",
+      "paper_location": "Methods Sec. 4.11",
+      "deviation": "The manuscript reports a weighted kappa without naming the weight function. A linear weight is used here; the quadratic weighting is available from the same function.",
+      "justification": "a default was required, and the choice is an argument so the value can be recomputed under the other weighting"
+    },
+    {
+      "id": "dev7-calibration-loss-form",
+      "paper_location": "Algorithm 1 step 9",
+      "deviation": "The third objective term is written as a calibration loss without a specified form. The shipped default is the mean absolute site-level gap between mean predicted probability and observed frequency, with a Brier variant available.",
+      "justification": "the site-conditional calibration error is the quantity the manuscript reports, so the loss targets it directly"
+    },
+    {
+      "id": "dev8-lambda-gamma-values",
+      "paper_location": "Algorithm 1 step 9",
+      "deviation": "The weights of the decision and calibration terms are not given numeric values. The configs carry lambda_decision = 0.5 and gamma_calibration = 0.1 as labelled engineering defaults, and both are reported in the run metadata.",
+      "justification": "the objective cannot be assembled without them"
+    },
+    {
+      "id": "dev9-reader-and-in-vitro-vectors",
+      "paper_location": "Methods Sec. 4.9-4.10",
+      "deviation": "The reader response table and the in vitro measurement block are not part of the manuscript's released material. The design, the pairing checks and every estimator are implemented and exercised on generated tables in the test suite; the reported values stay NOT_RUN.",
+      "justification": "those analyses are only defensible on real measurements, and no measurement block exists here"
+    },
+    {
+      "id": "dev10-quoted-arms",
+      "paper_location": "Methods Sec. 4.8; Table 3",
+      "deviation": "The endoscopic-ultrasound standard, the reader panel and the published multicentre range are carried as quoted values with their source named in the arm record, and are never recomputed here.",
+      "justification": "those values come from other studies, and recomputing them here would present a different estimand as the manuscript's comparison"
+    }
+  ]
+}
